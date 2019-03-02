@@ -31,12 +31,11 @@ static void bill(void * unusedpointer, unsigned long unusedint)
         for (i = 0; i < NUM_LOOPS; i++) {
                 
                 lock_acquire(locka);
+                lock_acquire(lockb);
                 
                 holds_locka();          /* Critical section */
                 
                 lock_release(locka);
-
-                lock_acquire(lockb);
                 
                 holds_lockb();          /* Critical section */
                 
@@ -72,20 +71,19 @@ static void ben(void * unusedpointer, unsigned long unusedint)
 
         for (i = 0; i < NUM_LOOPS; i++) {
                 lock_acquire(locka);
+                lock_acquire(lockb);
 
                 holds_locka();          /* Critical section */
                 
                 lock_release(locka);
-
-                lock_acquire(lockb);
                 
                 holds_lockb();          /* Critical section */
                 
                 lock_release(lockb);
 
 
-                lock_acquire(lockb);
                 lock_acquire(locka);
+                lock_acquire(lockb);
 
                 /* Ben now holds both locks and can do what ever bill
                    needs to do while holding the locks */
