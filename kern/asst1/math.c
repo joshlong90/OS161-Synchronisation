@@ -80,6 +80,7 @@ static void adder(void * unusedpointer, unsigned long addernumber)
         while (flag) {
                 /* loop doing increments until we achieve the overall number
                    of increments */
+                /* acquire lock before entering critical region */
                 lock_acquire(count_lock);
                 a = counter;
                 if (a < NADDS) {
@@ -102,6 +103,7 @@ static void adder(void * unusedpointer, unsigned long addernumber)
                 } else {
                         flag = 0;
                 }
+                /* release lock after critical region is complete */
                 lock_release(count_lock);
         }
 
